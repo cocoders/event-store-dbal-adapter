@@ -1,0 +1,32 @@
+php5:
+  build: .
+  links:
+    - mysql
+    - postgres
+  volumes:
+    - .:/home/cocoders/event-store
+
+mysql:
+  image: mysql:5.6.29
+  environment:
+    MYSQL_ROOT_PASSWORD: secretRootPassword
+    MYSQL_DATABASE: eventStore
+  ports:
+    - "3307:3306"
+  expose:
+    - "3306"
+  volumes:
+    - /dev/shm/event-store-mysql-56:/var/lib/mysql
+    - ./docker/mysql/my.cnf:/etc/mysql/my.cnf
+
+postgres:
+  image: postgres:9.5.1
+  ports:
+    - "5432:5432"
+  volumes:
+    - /dev/shm/event-store-postgres-95:/var/lib/postgresql/data/pgdata
+  environment:
+    LC_ALL: C.UTF-8
+    POSTGRES_PASSWORD: secretPostrgresPassword
+    POSTGRES_DB: eventStore
+    PGDATA: /var/lib/postgresql/data/pgdata

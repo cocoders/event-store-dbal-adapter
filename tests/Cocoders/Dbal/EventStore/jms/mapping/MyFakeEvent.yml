@@ -1,0 +1,9 @@
+Tests\Cocoders\Dbal\EventStore\MyFakeEvent:
+    exclusion_policy: NONE
+    properties:
+        id:
+            type: string
+        occurredOn:
+            type: DateTime<'Y-m-d H:i:s'>
+        data:
+            type: array
