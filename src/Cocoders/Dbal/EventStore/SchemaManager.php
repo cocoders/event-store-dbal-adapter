@@ -41,7 +41,9 @@ final class SchemaManager
 
         $dbalSchemaManager = $this->connection->getSchemaManager();
         try {
-            $dbalSchemaManager->dropTable($tableName);
+            if ($dbalSchemaManager->tablesExist([$tableName])) {
+                $dbalSchemaManager->dropTable($tableName);
+            }
         } catch (\PDOException $e) {
         }
     }
