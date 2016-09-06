@@ -38,7 +38,16 @@ final class EventStore implements EventStoreInterface
             ->setParameter('id', (string) $id)
             ->orderBy('occurred_on', 'ASC')
         ;
-        $stmt = $qb->execute();
+
+        $this->connection->beginTransaction();
+
+        try{
+            $stmt = $qb->execute();
+            $this->connection->commit();
+        } catch(Exception $e) {
+            $this->connection->rollBack();
+            throw $e;
+        }
 
         $events = $this->hydrateEvents($stmt);
 
